@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+  envoy:
+    image: envoyproxy/envoy:v1.29.1
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - 8080:8080
+      - 9901:9901
+  dex:
+    image: ghcr.io/dexidp/dex:v2.38.0
+    volumes:
+      - ./config.docker.yaml:/etc/dex/config.docker.yaml
+    # ports:
+      # - 5556:5556
+      # - 5555:5555
+  ext-authz:
+    image: mendhak/http-https-echo:31
+    environment:
+        - HTTP_PORT=8888
+        - HTTPS_PORT=9999
+    ports:
+      - 8888:8888
+      - 9999:9999

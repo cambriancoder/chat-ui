@@ -11,6 +11,7 @@ export const endpointTgiParametersSchema = z.object({
 	url: z.string().url(),
 	accessToken: z.string().default(HF_TOKEN ?? HF_ACCESS_TOKEN),
 	authorization: z.string().optional(),
+	identity: z.any().optional(),
 });
 
 export function endpointTgi(input: z.input<typeof endpointTgiParametersSchema>): Endpoint {
@@ -39,6 +40,7 @@ export function endpointTgi(input: z.input<typeof endpointTgiParametersSchema>):
 						info.headers = {
 							...info.headers,
 							Authorization: authorization,
+							MyCustomHeader: input.identity,
 						};
 					}
 					return fetch(endpointUrl, info);

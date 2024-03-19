@@ -50,7 +50,39 @@
 	>
 		<h3 class="pb-3 pl-3 pt-2 text-[.8rem] text-gray-800 sm:pl-1">Models</h3>
 
-		{#each data.models.filter((el) => !el.unlisted) as model}
+		{#each data.models.filter((el) => {
+			
+			// check if user with groups has access to model with acgs
+			const groups = data.user.groups;
+			const acgs = el.acgs;
+			
+			console.log(groups, acgs);
+			
+			if (!acgs && el.unlisted) {
+				return false
+			}
+
+			if (!acgs && !el.unlisted) {
+				return true
+			}
+
+			if (!groups) {
+				return false;
+			}
+			
+			if (groups.length === 0 && acgs.length === 0) {
+				return true;
+			}
+			
+			for (const group of groups) {
+				if (acgs.includes(group)) {
+					return true;
+				}
+			}
+
+			return false;
+			
+		}) as model}
 			<a
 				href="{base}/settings/{model.id}"
 				class="group flex h-10 flex-none items-center gap-2 pl-3 pr-2 text-sm text-gray-500 hover:bg-gray-100 md:rounded-xl

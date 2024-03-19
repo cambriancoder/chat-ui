@@ -38,7 +38,40 @@
 		</div>
 		<h3 class="text-gray-500">All models available on {PUBLIC_APP_NAME}</h3>
 		<dl class="mt-8 grid grid-cols-1 gap-3 sm:gap-5 xl:grid-cols-2">
-			{#each data.models.filter((el) => !el.unlisted) as model, index (model.id)}
+			{#each data.models.filter((el) => {
+				
+				// check if user with groups has access to model with acgs
+				const groups = data.user.groups;
+				const acgs = el.acgs;
+				
+				console.log(groups, acgs);
+				
+				if (!acgs && el.unlisted) {
+					return false
+				}
+
+				if (!acgs && !el.unlisted) {
+					return true
+				}
+				
+				if (!groups) {
+					return false;
+				}
+				
+				if (groups.length === 0 && acgs.length === 0) {
+					return true;
+				}
+				
+				for (const group of groups) {
+					if (acgs.includes(group)) {
+						return true;
+					}
+				}
+				
+				return false;
+				
+
+			}) as model, index (model.id)}
 				<a
 					href="{base}/models/{model.id}"
 					class="relative flex flex-col gap-2 overflow-hidden rounded-xl border bg-gray-50/50 px-6 py-5 shadow hover:bg-gray-50 hover:shadow-inner dark:border-gray-800/70 dark:bg-gray-950/20 dark:hover:bg-gray-950/40"

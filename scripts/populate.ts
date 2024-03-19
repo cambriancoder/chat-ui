@@ -124,6 +124,7 @@ async function seed() {
 			name: faker.person.fullName(),
 			hfUserId: faker.string.alphanumeric(24),
 			avatarUrl: faker.image.avatar(),
+			groups: [],
 		}));
 
 		await collections.users.insertMany(newUsers);

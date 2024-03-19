@@ -71,6 +71,7 @@ const modelConfig = z.object({
 	multimodal: z.boolean().default(false),
 	unlisted: z.boolean().default(false),
 	embeddingModel: validateEmbeddingModelByName(embeddingModels).optional(),
+	acgs: z.array(z.string()).optional(),
 });
 
 const modelsRaw = z.array(modelConfig).parse(JSON5.parse(MODELS));
@@ -84,6 +85,7 @@ const processModel = async (m: z.infer<typeof modelConfig>) => ({
 	displayName: m.displayName || m.name,
 	preprompt: m.prepromptUrl ? await fetch(m.prepromptUrl).then((r) => r.text()) : m.preprompt,
 	parameters: { ...m.parameters, stop_sequences: m.parameters?.stop },
+	acgs: m.acgs
 });
 
 const addEndpoint = (m: Awaited<ReturnType<typeof processModel>>) => ({

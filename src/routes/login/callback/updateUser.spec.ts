@@ -13,6 +13,7 @@ const userData = {
 	name: "name",
 	picture: "https://example.com/avatar.png",
 	sub: "1234567890",
+	groups: [],
 };
 Object.freeze(userData);
 
@@ -35,6 +36,7 @@ const insertRandomUser = async () => {
 		name: userData.name,
 		avatarUrl: userData.picture,
 		hfUserId: userData.sub,
+		groups: userData.groups
 	});
 
 	return res.insertedId;

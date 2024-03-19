@@ -15,6 +15,7 @@ export async function GET() {
 		preprompt: model.preprompt,
 		multimodal: model.multimodal,
 		unlisted: model.unlisted,
+		acgs: model.acgs,
 	}));
 	return Response.json(res);
 }

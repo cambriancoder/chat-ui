@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import { setGlobalDispatcher, Agent } from "undici";
+import { globalAgent } from "https";
 
 /**
  * Load client certificates for mutual TLS authentication. This function must be called before any HTTP requests are made.
@@ -45,6 +46,12 @@ export function loadClientCertificates(
 			rejectUnauthorized,
 		},
 	});
+
+	globalAgent.options.ca = caCert;
+	globalAgent.options.cert = clientCert;
+	globalAgent.options.key = clientKey;
+	globalAgent.options.passphrase = clientKeyPassword;
+	globalAgent.options.rejectUnauthorized = rejectUnauthorized;
 
 	setGlobalDispatcher(agent);
 }

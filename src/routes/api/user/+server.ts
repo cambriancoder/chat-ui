@@ -7,6 +7,7 @@ export async function GET({ locals }) {
 			email: locals.user.email,
 			avatarUrl: locals.user.avatarUrl,
 			hfUserId: locals.user.hfUserId,
+			groups: locals.user.groups,
 		};
 
 		return Response.json(res);

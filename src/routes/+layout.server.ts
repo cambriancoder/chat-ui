@@ -168,6 +168,7 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 			preprompt: model.preprompt,
 			multimodal: model.multimodal,
 			unlisted: model.unlisted,
+			acgs: model.acgs,
 		})),
 		oldModels,
 		assistants: assistants
@@ -184,6 +185,7 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 			username: locals.user.username,
 			avatarUrl: locals.user.avatarUrl,
 			email: locals.user.email,
+			groups: locals.user.groups,
 		},
 		assistant,
 		enableAssistants,

@@ -16,4 +16,5 @@ export type Model = Pick<
 	| "preprompt"
 	| "multimodal"
 	| "unlisted"
+	| "acgs"
 >;

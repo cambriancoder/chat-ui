@@ -30,13 +30,15 @@ export async function updateUser(params: {
 		email,
 		picture: avatarUrl,
 		sub: hfUserId,
+		groups
 	} = z
 		.object({
 			preferred_username: z.string().optional(),
-			name: z.string(),
+			name: z.string().optional(),
 			picture: z.string().optional(),
 			sub: z.string(),
 			email: z.string().email().optional(),
+			groups: z.array(z.string()).optional(),
 		})
 		.refine((data) => data.preferred_username || data.email, {
 			message: "Either preferred_username or email must be provided by the provider.",
@@ -62,7 +64,7 @@ export async function updateUser(params: {
 		// update existing user if any
 		await collections.users.updateOne(
 			{ _id: existingUser._id },
-			{ $set: { username, name, avatarUrl } }
+			{ $set: { username, name, avatarUrl, groups } }
 		);
 
 		// remove previous session if it exists and add new one
@@ -91,6 +93,7 @@ export async function updateUser(params: {
 			email,
 			avatarUrl,
 			hfUserId,
+			groups,
 		});
 
 		userId = insertedId;
